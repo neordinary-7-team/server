@@ -6,7 +6,10 @@ import com.neodinary7.hackathon.config.BaseException;
 import com.neodinary7.hackathon.config.BaseResponse;
 import com.neodinary7.hackathon.config.BaseScheduleResponse;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Connection;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.neodinary7.hackathon.config.BaseResponseStatus.*;
 
@@ -54,6 +57,17 @@ public class ScheduleController {
     public BaseResponse<ScheduleDetail> getScheduleDetail(@PathVariable("scheduleIdx") int scheduleIdx) throws BaseException {
         try {
             return new BaseResponse<>(scheduleService.getScheduleDetail(scheduleIdx));
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+
+
+    }
+
+    @GetMapping("/owner/{userIdx}")
+    public BaseResponse<List<MyScheduleResponse>> getMySchedule(@PathVariable("userIdx") int userIdx) throws BaseException {
+        try {
+            return new BaseResponse<>(scheduleService.getMySchedule(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
         }
