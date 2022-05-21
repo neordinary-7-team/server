@@ -3,14 +3,11 @@ package com.neodinary7.hackathon.Schedules.model;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Getter
 @RequiredArgsConstructor
-public class ScheduleRequest {
+public class Schedule {
+    private final int scheduleIdx;
     private final String groupName;
     private final int userIdx;
-    private final List<String> dateList;
+    private final String dateList;
 }

@@ -1,5 +1,6 @@
 package com.neodinary7.hackathon.Schedules;
 
+import com.neodinary7.hackathon.Schedules.model.ScheduleDetail;
 import com.neodinary7.hackathon.Schedules.model.ScheduleJoinRequest;
 import com.neodinary7.hackathon.Schedules.model.ScheduleRequest;
 import com.neodinary7.hackathon.config.BaseException;
@@ -35,5 +36,13 @@ public class ScheduleService {
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
+    }
+
+    public ScheduleDetail getScheduleDetail(int idx) throws BaseException {
+//        try {
+            return scheduleDao.getScheduleDeatil(idx);
+//        } catch (Exception e) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
     }
 }
