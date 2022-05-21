@@ -37,6 +37,7 @@ public enum BaseResponseStatus {
     WRONG_PASSWORD(false, 2004, "잘못된 비밀번호입니다."),
     INVALID_USERIDX(false,2100,"잘못된 유저 인덱스입니다."),
     NOT_EXIST_USER(false, 2101, "존재하지 않는 유저입니다."),
+    INVALID_SCHEDULE(false,2104,"스케줄이 존재하지 않습니다."),
     POST_USERS_EMPTY_EMAIL(false, 2148, "이메일을 입력해주세요."),
     POST_USERS_INVALID_EMAIL(false, 2149, "이메일 형식을 확인해주세요."),
     POST_USERS_EMPTY_USERID(false, 2150, "유저 ID를 입력해주세요."),
@@ -60,10 +61,20 @@ public enum BaseResponseStatus {
     private final boolean isSuccess;
     private final int code;
     private final String message;
-
+    private int userIdx;
+    private String scheduleIdx;
+    private String dateList;
     private BaseResponseStatus(boolean isSuccess, int code, String message) { //BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
         this.isSuccess = isSuccess;
         this.code = code;
         this.message = message;
+    }
+    private BaseResponseStatus(boolean isSuccess, int code, String message,int userIdx,String scheduleIdx,String dateList) { //BaseResponseStatus 에서 각 해당하는 코드를 생성자로 맵핑
+        this.isSuccess = isSuccess;
+        this.code = code;
+        this.message = message;
+        this.userIdx = userIdx;
+        this.scheduleIdx = scheduleIdx;
+        this.dateList=dateList;
     }
 }
