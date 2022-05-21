@@ -93,4 +93,20 @@ public class ScheduleDao {
         }
         return arr;
     }
+
+    public List<ScheduleJoinResponse> getJoinSchedule(int idx) {
+        String Query = "select scheduleIdx, userIdx from UserJoinSchedule where userIdx=?;";
+        List<ScheduleResponse> temp = this.jdbcTemplate.query(Query,
+                (rs,rowNum) -> new ScheduleResponse(
+                        rs.getInt("scheduleIdx"),
+                        rs.getInt("userIdx")), idx);
+
+        List<ScheduleJoinResponse> data = new ArrayList<>();
+        Query = "select groupName from Schedule where scheduleIdx=?";
+        for(ScheduleResponse s : temp) {
+            String name = this.jdbcTemplate.queryForObject(Query, String.class, s.getScheduleIdx());
+            data.add(new ScheduleJoinResponse(s.getUserIdx(), s.getScheduleIdx(), name));
+        }
+        return data;
+    }
 }

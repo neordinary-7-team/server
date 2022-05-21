@@ -54,7 +54,7 @@ public class UserDao {
         return this.jdbcTemplate.queryForObject(Query,
                 (rs,rowNum) -> new ScheduleResponse(
                         rs.getInt("userIdx"),
-                        rs.getString("scheduleIdx")),idx);
+                        rs.getInt("scheduleIdx")),idx);
         //rs.getString("dateList")),idx);
     }
 
