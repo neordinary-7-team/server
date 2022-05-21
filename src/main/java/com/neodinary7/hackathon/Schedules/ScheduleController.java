@@ -1,18 +1,16 @@
 package com.neodinary7.hackathon.Schedules;
 
-import com.neodinary7.hackathon.Schedules.model.ScheduleDetail;
-import com.neodinary7.hackathon.Schedules.model.ScheduleJoinRequest;
-import com.neodinary7.hackathon.Schedules.model.ScheduleMemberDate;
-import com.neodinary7.hackathon.Schedules.model.ScheduleRequest;
+import com.neodinary7.hackathon.Schedules.model.*;
 import com.neodinary7.hackathon.User.model.UserRequest;
 import com.neodinary7.hackathon.config.BaseException;
 import com.neodinary7.hackathon.config.BaseResponse;
+import com.neodinary7.hackathon.config.BaseScheduleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import static com.neodinary7.hackathon.config.BaseResponseStatus.*;
 
-import static com.neodinary7.hackathon.config.BaseResponseStatus.EXIST_USER_ERROR;
 
 @RestController
 @RequestMapping("/schedules")
@@ -62,6 +60,7 @@ public class ScheduleController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
 
     @GetMapping("/calender/{scheduleIdx}")
     public BaseResponse<List<ScheduleMemberDate>> getScheduleCalender(@PathVariable("scheduleIdx") int scheduleIdx) throws BaseException {

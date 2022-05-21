@@ -1,10 +1,13 @@
 package com.neodinary7.hackathon.User;
 
+import com.neodinary7.hackathon.Schedules.model.IdxResponse;
+import com.neodinary7.hackathon.Schedules.model.ScheduleResponse;
 import com.neodinary7.hackathon.User.model.LoginRequest;
 import com.neodinary7.hackathon.User.model.LoginResponse;
 import com.neodinary7.hackathon.User.model.UserRequest;
 import com.neodinary7.hackathon.config.BaseException;
 import com.neodinary7.hackathon.config.BaseResponse;
+import com.neodinary7.hackathon.config.BaseScheduleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +44,34 @@ public class UserController {
             return new BaseResponse<>(loginResponse);
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
+        }
+    }
+    /*
+     * 일정 테이블
+     * 일정을 만들었고 useridx
+     * 내가 조회하는 Userjoin idx
+     *
+     * */
+    @GetMapping("/listcheck")
+    public BaseScheduleResponse<ScheduleResponse> listcheck(@RequestParam("idx") String idx) {
+        try {
+            if(idx.length()==0) {
+                return new BaseScheduleResponse<>(NOT_EXIST_USER);
+            }
+            else {
+                IdxResponse idxresponse = userService.existsidx(idx);
+                if (idxresponse.getIdx()==0) {
+                    return new BaseScheduleResponse<>(INVALID_SCHEDULE);
+                }
+                // private final int userIdx;
+                //    private final String scheduleIdx;
+                //    private final String dateList;
+
+                ScheduleResponse scheduleResponse = userService.myScheduleList(idx);
+                return new BaseScheduleResponse<>(scheduleResponse);
+            }
+        } catch (BaseException exception) {
+            return new BaseScheduleResponse<>(exception.getStatus());
         }
     }
 }
