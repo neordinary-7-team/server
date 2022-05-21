@@ -1,9 +1,6 @@
 package com.neodinary7.hackathon.Schedules;
 
-import com.neodinary7.hackathon.Schedules.model.Schedule;
-import com.neodinary7.hackathon.Schedules.model.ScheduleDetail;
-import com.neodinary7.hackathon.Schedules.model.ScheduleJoinRequest;
-import com.neodinary7.hackathon.Schedules.model.ScheduleRequest;
+import com.neodinary7.hackathon.Schedules.model.*;
 import com.neodinary7.hackathon.User.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Repository
@@ -70,8 +68,29 @@ public class ScheduleDao {
             String name = this.jdbcTemplate.queryForObject(Query, (rs, rowNum) -> rs.getString("name"), member);
             members.add(name);
         }
-        log.info("members : {}", members);
+
         return new ScheduleDetail(schedule.getScheduleIdx(), schedule.getGroupName(),
                 schedule.getUserIdx(), members, dates);
+    }
+
+    public List<ScheduleMemberDate> getScheduleCalender(int idx) {
+        String Query = "select userIdx, dateList from UserJoinSchedule where scheduleIdx = ?;";
+        List<ScheduleIdxDate> date = this.jdbcTemplate.query(Query,
+                (rs,rowNum) -> new ScheduleIdxDate(
+                        rs.getInt("userIdx"),
+                        rs.getString("dateList")), idx);
+        List<ScheduleMemberDate> arr = new ArrayList<>();
+        Query = "select name from User where userIdx=?";
+        for(ScheduleIdxDate s : date) {
+            String name = this.jdbcTemplate.queryForObject(Query, (rs, rowNum) -> rs.getString("name"), s.getUserIdx());
+            String str = s.getDateList().substring(1, s.getDateList().length()-1);
+            List<String> dates = List.of(str.split(","));
+            List<String> dd = new ArrayList<>();
+            for(int i=0;i<dates.size();i++) {
+                dd.add(dates.get(i).trim());
+            }
+            arr.add(new ScheduleMemberDate(name, dd));
+        }
+        return arr;
     }
 }

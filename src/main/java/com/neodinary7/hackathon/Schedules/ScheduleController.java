@@ -8,7 +8,9 @@ import com.neodinary7.hackathon.config.BaseScheduleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import static com.neodinary7.hackathon.config.BaseResponseStatus.*;
+
 
 @RestController
 @RequestMapping("/schedules")
@@ -60,7 +62,13 @@ public class ScheduleController {
     }
 
 
-
-
-
+    @GetMapping("/calender/{scheduleIdx}")
+    public BaseResponse<List<ScheduleMemberDate>> getScheduleCalender(@PathVariable("scheduleIdx") int scheduleIdx) throws BaseException {
+        try {
+            List<ScheduleMemberDate> data = scheduleService.getScheduleCalender(scheduleIdx);
+            return new BaseResponse<>(data);
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
 }
