@@ -68,10 +68,38 @@ public class ScheduleDao {
             String name = this.jdbcTemplate.queryForObject(Query, (rs, rowNum) -> rs.getString("name"), member);
             members.add(name);
         }
-
+        log.info("members : {}", members);
         return new ScheduleDetail(schedule.getScheduleIdx(), schedule.getGroupName(),
                 schedule.getUserIdx(), members, dates);
     }
+
+    public List<MyScheduleResponse> selectMySchedule(int userIdx) {
+        String Query = "select groupName, userIdx, scheduleIdx, dateList from Schedule where userIdx = ?";
+
+        List<Schedule> schedules = this.jdbcTemplate.query(Query,
+                (rs, rowNum) -> new Schedule(
+                        rs.getInt("scheduleIdx"),
+                        rs.getString("groupName"),
+                        rs.getInt("userIdx"),
+                        rs.getString("dateList")), userIdx);
+
+        List<MyScheduleResponse> myScheduleResponses = new ArrayList<>();
+
+        for (Schedule s : schedules) {
+            String str = s.getDateList().substring(1, s.getDateList().length()-1);
+            List<String> dates = List.of(str.split(","));
+            List<String> dd = new ArrayList<>();
+            for(int i=0;i< dates.size();i++) {
+                dd.add(dates.get(i).trim());
+            }
+
+            myScheduleResponses.add(new MyScheduleResponse(s.getScheduleIdx(), s.getGroupName(), s.getUserIdx(), dd));
+        }
+
+        return myScheduleResponses;
+
+    }
+
 
     public List<ScheduleMemberDate> getScheduleCalender(int idx) {
         String Query = "select userIdx, dateList from UserJoinSchedule where scheduleIdx = ?;";

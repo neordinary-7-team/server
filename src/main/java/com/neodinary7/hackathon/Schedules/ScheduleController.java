@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import static com.neodinary7.hackathon.config.BaseResponseStatus.*;
 
-
 @RestController
 @RequestMapping("/schedules")
 @RequiredArgsConstructor
@@ -57,6 +56,17 @@ public class ScheduleController {
     public BaseResponse<ScheduleDetail> getScheduleDetail(@PathVariable("scheduleIdx") int scheduleIdx) throws BaseException {
         try {
             return new BaseResponse<>(scheduleService.getScheduleDetail(scheduleIdx));
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+
+
+    }
+
+    @GetMapping("/owner/{userIdx}")
+    public BaseResponse<List<MyScheduleResponse>> getMySchedule(@PathVariable("userIdx") int userIdx) throws BaseException {
+        try {
+            return new BaseResponse<>(scheduleService.getMySchedule(userIdx));
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
         }

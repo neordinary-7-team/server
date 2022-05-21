@@ -46,6 +46,14 @@ public class ScheduleService {
         }
     }
 
+    public List<MyScheduleResponse> getMySchedule(int userIdx) throws BaseException {
+        try {
+            return scheduleDao.selectMySchedule(userIdx);
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
     public List<ScheduleMemberDate> getScheduleCalender(int idx) throws BaseException {
         try {
             return scheduleDao.getScheduleCalender(idx);

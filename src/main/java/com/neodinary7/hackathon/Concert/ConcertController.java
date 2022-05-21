@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/concert")
 @RequiredArgsConstructor
 public class ConcertController {
     private final ConcertCrawlingService concertCrawlingService;
@@ -35,7 +35,7 @@ public class ConcertController {
 
     // (GET) /concert?date={scheduleDate}
     @ResponseBody
-    @GetMapping("/concert")
+    @GetMapping("")
     public BaseResponse<List<ConcertResponse>> getConcertData(@RequestParam String date) {
         try {
             List<ConcertResponse> Concerts = concertCrawlingService.getConcertData(date);
