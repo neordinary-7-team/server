@@ -71,4 +71,8 @@ public class ScheduleDao {
         return new ScheduleDetail(schedule.getScheduleIdx(), schedule.getGroupName(),
                 schedule.getUserIdx(), members, dates);
     }
+
+
+
+
 }

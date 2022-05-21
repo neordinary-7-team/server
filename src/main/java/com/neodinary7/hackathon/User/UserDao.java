@@ -1,5 +1,6 @@
 package com.neodinary7.hackathon.User;
 
+import com.neodinary7.hackathon.Schedules.model.ScheduleResponse;
 import com.neodinary7.hackathon.User.model.LoginRequest;
 import com.neodinary7.hackathon.User.model.LoginResponse;
 import com.neodinary7.hackathon.User.model.User;
@@ -37,4 +38,25 @@ public class UserDao {
                         rs.getString("email"),
                         rs.getString("password")), email);
     }
+    public int existIdx(String Idx) {
+        String Query = "select exists(select userIdx from User where useridx = ?) as success;";
+        int id = 0;
+        id = this.jdbcTemplate.queryForObject(Query, Integer.class, Idx);
+        return id;
+    }
+
+    public ScheduleResponse schedulelist(String Idx) {
+        int idx = Integer.parseInt(Idx);
+//        private final String userIdx;
+//        private final String scheduleIdx;
+//        private final String dateList;
+        String Query = "select userIdx,scheduleIdx,dateList from UserJoinSchedule where Idx = ?";
+        return this.jdbcTemplate.queryForObject(Query,
+                (rs,rowNum) -> new ScheduleResponse(
+                        rs.getInt("userIdx"),
+                        rs.getString("scheduleIdx")),idx);
+        //rs.getString("dateList")),idx);
+    }
+
+
 }
