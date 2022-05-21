@@ -53,4 +53,20 @@ public class ScheduleService {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    public List<ScheduleMemberDate> getScheduleCalender(int idx) throws BaseException {
+        try {
+            return scheduleDao.getScheduleCalender(idx);
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<ScheduleJoinResponse> getJoinSchedule(int idx) throws BaseException {
+        try {
+            return scheduleDao.getJoinSchedule(idx);
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

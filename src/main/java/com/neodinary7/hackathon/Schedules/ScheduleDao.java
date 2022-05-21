@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Slf4j
 @Repository
@@ -99,4 +100,41 @@ public class ScheduleDao {
 
     }
 
+
+    public List<ScheduleMemberDate> getScheduleCalender(int idx) {
+        String Query = "select userIdx, dateList from UserJoinSchedule where scheduleIdx = ?;";
+        List<ScheduleIdxDate> date = this.jdbcTemplate.query(Query,
+                (rs,rowNum) -> new ScheduleIdxDate(
+                        rs.getInt("userIdx"),
+                        rs.getString("dateList")), idx);
+        List<ScheduleMemberDate> arr = new ArrayList<>();
+        Query = "select name from User where userIdx=?";
+        for(ScheduleIdxDate s : date) {
+            String name = this.jdbcTemplate.queryForObject(Query, (rs, rowNum) -> rs.getString("name"), s.getUserIdx());
+            String str = s.getDateList().substring(1, s.getDateList().length()-1);
+            List<String> dates = List.of(str.split(","));
+            List<String> dd = new ArrayList<>();
+            for(int i=0;i<dates.size();i++) {
+                dd.add(dates.get(i).trim());
+            }
+            arr.add(new ScheduleMemberDate(name, dd));
+        }
+        return arr;
+    }
+
+    public List<ScheduleJoinResponse> getJoinSchedule(int idx) {
+        String Query = "select scheduleIdx, userIdx from UserJoinSchedule where userIdx=?;";
+        List<ScheduleResponse> temp = this.jdbcTemplate.query(Query,
+                (rs,rowNum) -> new ScheduleResponse(
+                        rs.getInt("scheduleIdx"),
+                        rs.getInt("userIdx")), idx);
+
+        List<ScheduleJoinResponse> data = new ArrayList<>();
+        Query = "select groupName from Schedule where scheduleIdx=?";
+        for(ScheduleResponse s : temp) {
+            String name = this.jdbcTemplate.queryForObject(Query, String.class, s.getScheduleIdx());
+            data.add(new ScheduleJoinResponse(s.getUserIdx(), s.getScheduleIdx(), name));
+        }
+        return data;
+    }
 }
