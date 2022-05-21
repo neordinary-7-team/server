@@ -2,10 +2,13 @@ package com.neodinary7.hackathon.Schedules;
 
 import com.neodinary7.hackathon.Schedules.model.ScheduleDetail;
 import com.neodinary7.hackathon.Schedules.model.ScheduleJoinRequest;
+import com.neodinary7.hackathon.Schedules.model.ScheduleMemberDate;
 import com.neodinary7.hackathon.Schedules.model.ScheduleRequest;
 import com.neodinary7.hackathon.config.BaseException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.neodinary7.hackathon.config.BaseResponseStatus.DATABASE_ERROR;
 
@@ -41,6 +44,14 @@ public class ScheduleService {
     public ScheduleDetail getScheduleDetail(int idx) throws BaseException {
         try {
             return scheduleDao.getScheduleDeatil(idx);
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
+
+    public List<ScheduleMemberDate> getScheduleCalender(int idx) throws BaseException {
+        try {
+            return scheduleDao.getScheduleCalender(idx);
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
