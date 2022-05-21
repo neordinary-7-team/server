@@ -1,13 +1,8 @@
-package Concert;
+package com.neodinary7.hackathon.Concert;
 
-import Concert.Concert;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import javax.sql.DataSource;
-
 
 @Repository
 @RequiredArgsConstructor
@@ -20,10 +15,10 @@ public class ConcertDao {
 //    }
 
     public void insertConcertData(Concert concert) {
-        System.out.println("crawling Dao");
+        //System.out.println("crawling Dao");
 
-        String Query = "insert into hackaton7.Concert(name, location, image, startDate, endDate) values (?,?,?);";
-        Object[] concertData = new Object[]{concert.getName(), concert.getLocation(), concert.getImg(), concert.getStartDate(), concert.getEndDate()};
+        String Query = "insert into hackaton7.Concert(name, location, image, startDate, endDate, url) values (?,?,?,?,?,?);";
+        Object[] concertData = new Object[]{concert.getName(), concert.getLocation(), concert.getImg(), concert.getStartDate(), concert.getEndDate(), "http://ticket.interpark.com/TPGoodsList.asp?Ca=Dra&Sort=2"};
         this.jdbcTemplate.update(Query, concertData);
     }
 }
