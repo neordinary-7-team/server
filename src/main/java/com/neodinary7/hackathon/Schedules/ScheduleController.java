@@ -1,5 +1,6 @@
 package com.neodinary7.hackathon.Schedules;
 
+import com.neodinary7.hackathon.Schedules.model.ScheduleJoinRequest;
 import com.neodinary7.hackathon.Schedules.model.ScheduleRequest;
 import com.neodinary7.hackathon.User.model.UserRequest;
 import com.neodinary7.hackathon.config.BaseException;
@@ -20,6 +21,29 @@ public class ScheduleController {
     public BaseResponse<String> addSchedule(@RequestBody ScheduleRequest scheduleRequest) {
         try {
             scheduleService.addSchedule(scheduleRequest);
+            String result = "success!";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    @ResponseBody
+    @PostMapping("/join")
+    public BaseResponse<String> joinSchedule(@RequestBody ScheduleJoinRequest scheduleJoinRequest) {
+        try {
+            scheduleService.joinSchedule(scheduleJoinRequest);
+            String result = "success!";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
+    @PatchMapping("/join")
+    public BaseResponse<String> modifySchedule(@RequestBody ScheduleJoinRequest scheduleJoinRequest) {
+        try {
+            scheduleService.modifySchedule(scheduleJoinRequest);
             String result = "success!";
             return new BaseResponse<>(result);
         } catch (BaseException exception) {
