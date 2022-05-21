@@ -1,5 +1,6 @@
 package com.neodinary7.hackathon.Schedules;
 
+import com.neodinary7.hackathon.Schedules.model.ScheduleDetail;
 import com.neodinary7.hackathon.Schedules.model.ScheduleJoinRequest;
 import com.neodinary7.hackathon.Schedules.model.ScheduleRequest;
 import com.neodinary7.hackathon.User.model.UserRequest;
@@ -50,5 +51,15 @@ public class ScheduleController {
             return new BaseResponse<>(exception.getStatus());
         }
     }
+
+    @GetMapping("/{scheduleIdx}")
+    public BaseResponse<ScheduleDetail> getScheduleDetail(@PathVariable("scheduleIdx") int scheduleIdx) throws BaseException {
+        try {
+            return new BaseResponse<>(scheduleService.getScheduleDetail(scheduleIdx));
+        } catch (BaseException exception) {
+            return new BaseResponse<>(exception.getStatus());
+        }
+    }
+
 
 }
