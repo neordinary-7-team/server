@@ -19,13 +19,16 @@ import java.util.List;
 public class ScheduleDao {
     private final JdbcTemplate jdbcTemplate;
 
-    public void addSchedule(ScheduleRequest scheduleRequest) {
+    public int addSchedule(ScheduleRequest scheduleRequest) {
         String Query = "insert into Schedule(groupName, userIdx, dateList)\n" +
                 "VALUES (?,?,?);";
         String strDate = scheduleRequest.getDateList().toString();
 
         Object[] data = new Object[]{scheduleRequest.getGroupName(), scheduleRequest.getUserIdx(), strDate};
         this.jdbcTemplate.update(Query, data);
+        Query = "SELECT last_insert_id();";
+
+        return this.jdbcTemplate.queryForObject(Query, Integer.class);
     }
 
     public void joinSchedule(ScheduleJoinRequest scheduleJoinRequest) {
@@ -71,8 +74,4 @@ public class ScheduleDao {
         return new ScheduleDetail(schedule.getScheduleIdx(), schedule.getGroupName(),
                 schedule.getUserIdx(), members, dates);
     }
-
-
-
-
 }
