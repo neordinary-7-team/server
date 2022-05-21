@@ -1,34 +1,36 @@
-package Crawling;
+package Concert;
 
-import Concert.Concert;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.awt.desktop.ScreenSleepEvent;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class ConcertCrawlingService {
 
-public class ConcertCrawling {
+    private final ConcertDao concertDao;
 
-    public ConcertCrawling() {
+    public void getConcertData() throws IOException {
+        System.out.println("crawling Service");
+        log.info("service test");
 
-    }
-
-    public static void getConcertData() throws IOException {
         final String URL = "https://ticket.interpark.com/TPGoodsList.asp?Ca=Dra&Sort=2";
         Connection conn = Jsoup.connect(URL);
         Document doc = conn.get();
         int i = 1;
         Concert concert;
 
-        Elements concertNames = doc.getElementsByClass("fw_bold");
+        Elements concertNames = doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(3) > div > div > div.con > div > table > tbody > tr:nth-child(" + i + ") > td.RKtxt > span > a");
         Elements concertLocations = doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(3) > div > div > div.con > div > table > tbody > tr:nth-child(" + i + ") > td:nth-child(3) > a");
         Elements concertImgs = doc.select("body > table > tbody > tr:nth-child(2) > td:nth-child(3) > div > div > div.con > div > table > tbody > tr:nth-child(" + i + ") > td.RKtxt > img");
         Elements Rkdate = doc.getElementsByClass("Rkdate");
@@ -49,31 +51,24 @@ public class ConcertCrawling {
                 startDate = concertDate[cnt].split("~ ")[0];
                 endDate = concertDate[cnt].split("~ ")[1];
 
-                //System.out.println("startDate : " + startDate);
-                //System.out.println("endDate : " + endDate);
+                System.out.println("startDate : " + startDate);
+                System.out.println("endDate : " + endDate);
             }
-            else {
-
-            }
-            cnt++;
-
+            /*
             System.out.println(concertNames.text());
             System.out.println(concertLocations.text());
             System.out.println(concertImgs.attr("src"));
             System.out.println(startDate);
             System.out.println(endDate);
+*/
 
-
-            concert = new Concert(concertNames.text(), concertLocations.text(), concertImgs.attr("src"), LocalDate.parse(startDate, DateTimeFormatter.ISO_DATE), LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE));
-
+            concert = new Concert(concertNames.text(), concertLocations.text(), concertImgs.attr("src"), startDate, endDate);
+            concertDao.insertConcertData(concert);
+            cnt++;
         }
 
 
     }
-
-
-
-
 
 
 }

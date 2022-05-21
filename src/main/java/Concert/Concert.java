@@ -20,10 +20,10 @@ public class Concert {
     private String img;
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
 
-    public Concert(String name, String location, String img, LocalDate startDate, LocalDate endDate) {
+    public Concert(String name, String location, String img, String startDate, String endDate) {
         this.name = name;
         this.location = location;
         //this.url = url;

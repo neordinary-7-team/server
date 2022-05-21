@@ -1,6 +1,7 @@
 package com.neodinary7.hackathon;
 
-import Crawling.ConcertCrawling;
+import Concert.ConcertCrawlingService;
+import Concert.ConcertDao;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,9 +15,9 @@ public class HackathonApplication {
 	public static void main(String[] args) throws IOException {
 
 		SpringApplication.run(HackathonApplication.class, args);
-		ConcertCrawling concertCrawling = new ConcertCrawling();
-
-		concertCrawling.getConcertData();
+//		ConcertCrawlingService concertCrawling = new ConcertCrawlingService(new ConcertDao());
+//
+//		concertCrawling.getConcertData();
 
 	}
 
