@@ -19,11 +19,10 @@ public class ScheduleController {
 
     @ResponseBody
     @PostMapping //모임 생성
-    public BaseResponse<String> addSchedule(@RequestBody ScheduleRequest scheduleRequest) {
+    public BaseResponse<Integer> addSchedule(@RequestBody ScheduleRequest scheduleRequest) {
         try {
-            scheduleService.addSchedule(scheduleRequest);
-            String result = "success!";
-            return new BaseResponse<>(result);
+            int idx = scheduleService.addSchedule(scheduleRequest);
+            return new BaseResponse<>(idx);
         } catch (BaseException exception) {
             return new BaseResponse<>(exception.getStatus());
         }

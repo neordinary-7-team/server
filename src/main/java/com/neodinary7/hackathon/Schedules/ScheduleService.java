@@ -14,9 +14,9 @@ import static com.neodinary7.hackathon.config.BaseResponseStatus.DATABASE_ERROR;
 public class ScheduleService {
     private final ScheduleDao scheduleDao;
 
-    public void addSchedule(ScheduleRequest scheduleRequest) throws BaseException {
+    public int addSchedule(ScheduleRequest scheduleRequest) throws BaseException {
         try {
-            scheduleDao.addSchedule(scheduleRequest);
+            return scheduleDao.addSchedule(scheduleRequest);
         } catch (Exception e) {
             throw new BaseException(DATABASE_ERROR);
         }
@@ -39,10 +39,10 @@ public class ScheduleService {
     }
 
     public ScheduleDetail getScheduleDetail(int idx) throws BaseException {
-//        try {
+        try {
             return scheduleDao.getScheduleDeatil(idx);
-//        } catch (Exception e) {
-//            throw new BaseException(DATABASE_ERROR);
-//        }
+        } catch (Exception e) {
+            throw new BaseException(DATABASE_ERROR);
+        }
     }
 }
