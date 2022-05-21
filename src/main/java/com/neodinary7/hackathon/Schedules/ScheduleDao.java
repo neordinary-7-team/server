@@ -12,12 +12,11 @@ public class ScheduleDao {
     private final JdbcTemplate jdbcTemplate;
 
     public void addSchedule(ScheduleRequest scheduleRequest) {
-        String Query = "insert into Schedule(groupName, userIdx, startDate, endDate)\n" +
-                "VALUES (?,?,?,?);";
-        String startDate = scheduleRequest.getStartDate().toString();
-        String endDate = scheduleRequest.getEndDate().toString();
+        String Query = "insert into Schedule(groupName, userIdx, dateList)\n" +
+                "VALUES (?,?,?);";
+        String strDate = scheduleRequest.getDateList().toString();
 
-        Object[] data = new Object[]{scheduleRequest.getGroupName(), scheduleRequest.getUserIdx(), startDate, endDate};
+        Object[] data = new Object[]{scheduleRequest.getGroupName(), scheduleRequest.getUserIdx(), strDate};
         this.jdbcTemplate.update(Query, data);
     }
 
