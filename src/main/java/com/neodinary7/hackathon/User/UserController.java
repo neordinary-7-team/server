@@ -34,7 +34,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/login") //로그인
+    @PostMapping("/login") //로그인
     public BaseResponse<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         try {
             if(userService.existUser(loginRequest.getEmail()) == 0) {
