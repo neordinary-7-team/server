@@ -123,17 +123,19 @@ public class ScheduleDao {
     }
 
     public List<ScheduleJoinResponse> getJoinSchedule(int idx) {
-        String Query = "select scheduleIdx, userIdx from UserJoinSchedule where userIdx=?;";
-        List<ScheduleResponse> temp = this.jdbcTemplate.query(Query,
-                (rs,rowNum) -> new ScheduleResponse(
-                        rs.getInt("scheduleIdx"),
-                        rs.getInt("userIdx")), idx);
+        log.info("idx, {}", idx);
+        String Query = "select scheduleIdx from UserJoinSchedule where userIdx=?;";
+        List<Integer> temps = new ArrayList<>();
+        temps = this.jdbcTemplate.query(Query,
+                (rs, rowNum) -> rs.getInt("scheduleIdx"), idx);
+
+        log.info("temp : {}", temps);
 
         List<ScheduleJoinResponse> data = new ArrayList<>();
         Query = "select groupName from Schedule where scheduleIdx=?";
-        for(ScheduleResponse s : temp) {
-            String name = this.jdbcTemplate.queryForObject(Query, String.class, s.getScheduleIdx());
-            data.add(new ScheduleJoinResponse(s.getUserIdx(), s.getScheduleIdx(), name));
+        for(Integer s : temps) {
+            String name = this.jdbcTemplate.queryForObject(Query, String.class, s);
+            data.add(new ScheduleJoinResponse(idx, s, name));
         }
         return data;
     }

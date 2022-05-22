@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 public class ScheduleResponse {
-    private final int userIdx;
     private final int scheduleIdx;
+    private final int userIdx;
 }

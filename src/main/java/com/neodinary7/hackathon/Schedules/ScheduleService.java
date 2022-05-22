@@ -63,10 +63,10 @@ public class ScheduleService {
     }
 
     public List<ScheduleJoinResponse> getJoinSchedule(int idx) throws BaseException {
-        try {
+//        try {
             return scheduleDao.getJoinSchedule(idx);
-        } catch (Exception e) {
-            throw new BaseException(DATABASE_ERROR);
-        }
+//        } catch (Exception e) {
+//            throw new BaseException(DATABASE_ERROR);
+//        }
     }
 }
